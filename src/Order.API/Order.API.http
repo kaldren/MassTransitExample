@@ -1,0 +1,19 @@
+@Order.API_HostAddress = http://localhost:5066
+
+POST {{Order.API_HostAddress}}/orders/
+Content-Type: application/json
+
+{
+    "orderId": "123456",
+    "products": [
+      {
+        "productId": "123",
+        "quantity": 2
+      },
+      {
+        "productId": "456",
+        "quantity": 5
+      }
+    ]
+}
+###

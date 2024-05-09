@@ -8,6 +8,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+// In memory database of products
 List<Product> products = new List<Product>
     {
         new Product(Guid.NewGuid().ToString(), "MacBook Pro", 2999.99M, 5),
