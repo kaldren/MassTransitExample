@@ -1,0 +1,1 @@
+﻿public record Order(string OrderId, List<Product> Products, bool IsProcessed);

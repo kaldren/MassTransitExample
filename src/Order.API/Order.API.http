@@ -17,3 +17,6 @@ Content-Type: application/json
     ]
 }
 ###
+
+GET {{Order.API_HostAddress}}/orders/
+###
