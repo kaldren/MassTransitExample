@@ -1,6 +1,19 @@
 @OrderProcessing.API_HostAddress = http://localhost:5210
 
-GET {{OrderProcessing.API_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{OrderProcessing.API_HostAddress}}/orders/
+Content-Type: application/json
 
+{
+    "orderId": "123456",
+    "products": [
+      {
+        "productId": "123",
+        "quantity": 2
+      },
+      {
+        "productId": "456",
+        "quantity": 5
+      }
+    ]
+}
 ###
