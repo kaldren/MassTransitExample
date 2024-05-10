@@ -39,10 +39,4 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors();
 
-// Create new order
-app.MapPost("/orders", (Order order) =>
-{
-    Console.WriteLine(order);
-});
-
 app.Run();
