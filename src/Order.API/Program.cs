@@ -18,6 +18,17 @@ builder.Services.AddMassTransit(config =>
 
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +37,7 @@ var app = builder.Build();
 List<Order> orders = new();
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 // Create new order
 app.MapPost("/orders", async (Order order, IBus bus) =>
@@ -36,7 +48,7 @@ app.MapPost("/orders", async (Order order, IBus bus) =>
 
     // Publish to message broker
     // NOTE: In a real app we might have to use outbox pattern
-    await bus.Publish(new OrderReceived(order.OrderId, order.Products));
+    await bus.Publish(new OrderReceived(order.OrderId, order.ProductId, order.Quantity));
     Console.WriteLine("Order published to message broker.");
 });
 

@@ -1,7 +1,65 @@
 ﻿@page "/"
+@using Messaging
+@inject IHttpClientFactory ClientFactory
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Products</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>All products</h1>
 
-Welcome to your new app.
+@if (products == null)
+{
+    <p>Loading products...</p>
+}
+else if (products.Length == 0)
+{
+    <p>No products available.</p>
+}
+else
+{
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        @foreach (var product in products)
+        {
+            <div style="border: 1px solid gray; padding: 10px; width: 300px;">
+                <h3>@product.Name</h3>
+                <p>Price: @product.Price.ToString("C")</p>
+                <select @bind="productQuantities[product.ProductId]">
+                    @for (int qty = 1; qty <= 10; qty++)
+                    {
+                        <option value="@qty">@qty</option>
+                    }
+                </select>
+                <button @onclick="@(async () => await Purchase(product.ProductId))">Purchase</button>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private Product[]? products;
+    private HttpClient? productsApi;
+    private HttpClient? ordersApi;
+    private Dictionary<int, int> productQuantities; // Stores quantities for each product
+
+    protected override async Task OnInitializedAsync()
+    {
+        productsApi = ClientFactory.CreateClient("ProductsAPI");
+        ordersApi = ClientFactory.CreateClient("OrdersAPI");
+        products = await productsApi.GetFromJsonAsync<Product[]>("products") ?? Array.Empty<Product>();
+        InitializeQuantities();
+    }
+
+    private void InitializeQuantities()
+    {
+        productQuantities = new Dictionary<int, int>();
+        foreach (var product in products)
+        {
+            productQuantities[product.ProductId] = 1; // Initialize each product's quantity to 1
+        }
+    }
+
+    private async Task Purchase(int productId)
+    {
+        int qty = productQuantities[productId]; // Fetch the selected quantity for this product
+        await ordersApi.PostAsJsonAsync("orders", new Order(productId, qty));
+    }
+}

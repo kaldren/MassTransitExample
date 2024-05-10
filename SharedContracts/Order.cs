@@ -1,1 +1,4 @@
-﻿public record Order(string OrderId, List<Product> Products, bool IsProcessed);
+﻿public record Order(int ProductId, int Quantity)
+{
+    public string OrderId { get; } = Guid.NewGuid().ToString();
+}

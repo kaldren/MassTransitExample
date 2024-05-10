@@ -1,6 +1,6 @@
 @ProductCatalog.API_HostAddress = http://localhost:5074
 
-GET {{ProductCatalog.API_HostAddress}}/catalog/
+GET {{ProductCatalog.API_HostAddress}}/products/
 Content-Type: application/json
 
 ###

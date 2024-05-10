@@ -5,13 +5,13 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductCatalog.API", "src\ProductCatalog.API\ProductCatalog.API.csproj", "{40B0631C-BBA8-4B47-A286-368F2C56BA75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderProcessing.API", "src\OrderProcessing.API\OrderProcessing.API.csproj", "{38E59684-2E54-41AD-8E46-1A0EA8AAB435}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.API", "src\OrderProcessing.API\Inventory.API.csproj", "{38E59684-2E54-41AD-8E46-1A0EA8AAB435}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.UI", "src\Blazor.UI\Blazor.UI.csproj", "{DB35E067-F435-449E-9766-8FB2EB5F3EA3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.API", "src\Order.API\Order.API.csproj", "{C10ECF5C-D407-44EC-B533-FB3892B20543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContracts", "SharedContracts\SharedContracts.csproj", "{16628D3D-222E-4892-B402-A73EE6F07A27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedContracts", "SharedContracts\SharedContracts.csproj", "{16628D3D-222E-4892-B402-A73EE6F07A27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

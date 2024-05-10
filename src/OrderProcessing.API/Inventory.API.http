@@ -1,6 +1,6 @@
-@OrderProcessing.API_HostAddress = http://localhost:5210
+@Inventory.API_HostAddress = http://localhost:5210
 
-POST {{OrderProcessing.API_HostAddress}}/orders/
+POST {{Inventory.API_HostAddress}}/orders/
 Content-Type: application/json
 
 {

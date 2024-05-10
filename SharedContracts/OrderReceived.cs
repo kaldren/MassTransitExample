@@ -1,3 +1,3 @@
 ﻿namespace Messaging;
 
-public record OrderReceived(string OrderId, List<Product> Products);
+public record OrderReceived(string OrderId, int ProductId, int Quantity);

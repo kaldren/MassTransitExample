@@ -1,5 +1,5 @@
 using MassTransit;
-using OrderProcessing.API.Consumers;
+using Inventory.API.Consumers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +14,22 @@ builder.Services.AddMassTransit(x =>
             h.Username("guest");
             h.Password("guest");
         });
-        cfg.ReceiveEndpoint("order-received-queue", e =>
+        cfg.ReceiveEndpoint("order-created-queue", e =>
         {
             e.ConfigureConsumer<OrderReceivedConsumer>(context);
         });
     });
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
 });
 
 var app = builder.Build();
@@ -26,6 +37,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 // Create new order
 app.MapPost("/orders", (Order order) =>

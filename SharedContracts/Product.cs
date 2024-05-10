@@ -1,1 +1,1 @@
-﻿public record Product(string ProductId, int Quantity);
+﻿public record Product(int ProductId, string Name, decimal Price, int Quantity);

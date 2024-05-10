@@ -1,6 +1,18 @@
+using SharedContracts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -8,25 +20,19 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
+app.UseCors();
+
 // In memory database of products
-List<Product> products = new List<Product>
-    {
-        new Product(Guid.NewGuid().ToString(), "MacBook Pro", 2999.99M, 5),
-        new Product(Guid.NewGuid().ToString(), "Harry Potter and The Order of The Phoenix", 19.99M, 3),
-        new Product(Guid.NewGuid().ToString(), "Leather Jacket", 699.99M, 1),
-    };
 
 app.MapGet("/products", () =>
 {
-    return products;
+    return ProductsDatabase.Products;
 });
 
-app.MapGet("/products/{productId}", (string productId) =>
+app.MapGet("/products/{productId}", (int productId) =>
 {
-    return products.SingleOrDefault(products => products.ProductId == productId);
+    return ProductsDatabase.Products.SingleOrDefault(products => products.ProductId == productId);
 });
 
 app.Run();
-
-internal record Product(string ProductId, string Name, decimal Price, int Quantitys);
 
