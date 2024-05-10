@@ -1,0 +1,49 @@
+﻿@inject IHttpClientFactory ClientFactory
+
+@page "/orders"
+<h3>Orders</h3>
+
+@if (orders == null)
+{
+    <p>Loading orders...</p>
+}
+else if (orders.Length == 0)
+{
+    <p>No orders available.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.ProductId</td>
+                    <td>@order.Quantity</td>
+                    <td>@order.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+@code {
+    private HttpClient? ordersApi;
+    private Order[]? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ordersApi = ClientFactory.CreateClient("OrdersAPI");
+        orders = await ordersApi.GetFromJsonAsync<Order[]>("orders") ?? Array.Empty<Order>();
+    }
+}

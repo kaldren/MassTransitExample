@@ -1,11 +1,14 @@
 using MassTransit;
 using Messaging;
+using OrderAPI.Consumers;
+using SharedContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMassTransit(config =>
 {
+    config.AddConsumer<OrderProcessedConsumer>();
     config.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("localhost", "/", h => {
@@ -13,7 +16,10 @@ builder.Services.AddMassTransit(config =>
             h.Password("guest");
         });
 
-        cfg.ConfigureEndpoints(context);
+        cfg.ReceiveEndpoint("order-processed-queue", e =>
+        {
+            e.ConfigureConsumer<OrderProcessedConsumer>(context);
+        });
     });
 
 });
@@ -34,7 +40,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 // In-memory storage for orders
-List<Order> orders = new();
 
 app.UseHttpsRedirection();
 app.UseCors();
@@ -43,7 +48,7 @@ app.UseCors();
 app.MapPost("/orders", async (Order order, IBus bus) =>
 {
     // Add to in-memory storage
-    orders.Add(order);
+    OrdersDatabase.Orders.Add(order);
     Console.WriteLine("Order added to db.");
 
     // Publish to message broker
@@ -55,7 +60,7 @@ app.MapPost("/orders", async (Order order, IBus bus) =>
 // Get all orders
 app.MapGet("/orders", () =>
 {
-    return orders;
+    return OrdersDatabase.Orders;
 });
 
 app.Run();
